@@ -1,3 +1,5 @@
+import userData from '../fixtures/users/userData.json'
+
 describe('template spec', () => {
 
   const selectorsList = {
@@ -10,20 +12,6 @@ describe('template spec', () => {
     wrongCredentialAlert: "[role='alert']"
 
   }
-
-  const userData = {
-
-    userSuccess:{
-      username: 'Admin',
-      password: 'admin123'
-    },
-    userFail:{
-      username: 'teste',
-      password: 'teste'
-    }
-
-  }
-
 
   it('Login - Sucess', () => {
     cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login')
