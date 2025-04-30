@@ -16,10 +16,11 @@ describe('template spec', () => {
     middleNameField:'[name="middleName"]',
     lastNameField: '[name="lastName"]',
     genericField: '.oxd-input--active',
-    dateField: '[placeholder="yyyy-mm-dd"]',
+    dateField: 'div.oxd-date-input input.oxd-input[placeholder="yyyy-dd-mm"]',
     dateCloseButton: '.--close',
-    submitButton: "[type='submit']"
-  
+    submitButton: "[type='submit']",
+    nationalitySelect: ".oxd-select-text-input",
+    maritalStatusSelect: ".oxd-select-text-input",
   }
 
   it.only('User info Update', () => {
@@ -72,30 +73,39 @@ describe('template spec', () => {
     cy.get(selectorsList.genericField)
       .eq(5)
       .clear()
-      .type('123')
-
-    cy.get(selectorsList.genericField)
-      .eq(6)
-      .clear()
       .type('ABC_123456-xyz')
 
-    cy.get(selectorsList.genericField)
-      .eq(8)
-      .clear()
-      .type('123456')    
- 
-    cy.get(selectorsList.genericField)
-      .eq(9)
-      .clear()
-      .type('654321')    
-
-    cy.get(selectorsList.genericField)
-      .eq(7)
+    cy.get(selectorsList.dateField)
+      .eq(0)
       .clear()
       .type('2030-12-31')   
 
-    // cy.get(selectorsList.dateCloseButton)
-    //   .click()
+    cy.get(selectorsList.dateCloseButton)
+      .click()
+
+    cy.get(selectorsList.nationalitySelect)
+      .eq(0)
+      .click()
+      
+    cy.get('.oxd-select-dropdown')
+      .contains('Brazilian')
+      .click()
+
+    cy.get(selectorsList.maritalStatusSelect)
+      .eq(1)
+      .click()
+
+    cy.get('.oxd-select-dropdown')
+      .contains('Married')
+      .click()
+
+    cy.get(selectorsList.dateField)
+      .eq(1)
+      .clear()
+      .type('1983-07-27')   
+
+    cy.get(selectorsList.dateCloseButton)
+      .click()
 
     cy.get(selectorsList.submitButton)
       .eq(0)
