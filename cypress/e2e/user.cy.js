@@ -1,65 +1,26 @@
 import userData from '../fixtures/users/userData.json'
+import LoginPage from '../pages/loginPage.js'
+import DashboardPage from '../pages/dashboardPage.js'
+import Navbar from '../pages/navbar.js'
+import MyInfoPage from '../pages/myInfoPage.js'
+const loginPage= new LoginPage()
+const dashboardPage= new DashboardPage()
+const navbar= new Navbar()
+const myInfoPage= new MyInfoPage()
 
 describe('template spec', () => {
 
-  const selectorsList = {
-
-    usernameField: "[name='username']",
-    passwordField: "[name='password']",
-    loginButton: "[type='submit']",
-    sectionTitleTopBar: ".oxd-topbar-header-breadcrumb-module",
-    dashboardGrid: ".orangehrm-dashboard-grid",
-    wrongCredentialAlert: "[role='alert']",
-    myInfoButton: '[href="/web/index.php/pim/viewMyDetails"]',
-    headerMyInfo: '[class="oxd-text oxd-text--h6 oxd-topbar-header-breadcrumb-module"]',
-    firstNameField:'[name="firstName"]',
-    middleNameField:'[name="middleName"]',
-    lastNameField: '[name="lastName"]',
-    genericField: '.oxd-input--active',
-    dateField: 'div.oxd-date-input input.oxd-input[placeholder="yyyy-dd-mm"]',
-    dateCloseButton: '.--close',
-    submitButton: "[type='submit']",
-    nationalitySelect: ".oxd-select-text-input",
-    maritalStatusSelect: ".oxd-select-text-input",
-  }
-
-  it.only('User info Update', () => {
-    cy.visit('/auth/login')
-  
-    cy.get(selectorsList.usernameField).type(userData.userSuccess.username)
-    cy.get(selectorsList.passwordField).type(userData.userSuccess.password)
-    cy.get(selectorsList.loginButton).click()
-    cy.location('pathname').should('equal','/web/index.php/dashboard/index')
-    cy.get(selectorsList.dashboardGrid).should('be.visible')
-    cy.get(selectorsList.myInfoButton).click()
-    cy.get(selectorsList.headerMyInfo).contains('PIM').should('be.visible')    
-    cy.get(selectorsList.firstNameField).clear().type('Felipe')
-    cy.get(selectorsList.middleNameField).clear().type('Recova')
-    cy.get(selectorsList.lastNameField).clear().type('Castilhos')
-    cy.get(selectorsList.genericField).eq(3).clear().type('Recovera')
-    cy.get(selectorsList.genericField).eq(4).clear().type('77742')
-    cy.get(selectorsList.genericField).eq(5).clear().type('ABC_123456-xyz')
-    cy.get(selectorsList.dateField).eq(0).clear().type('2030-12-31')   
-    cy.get(selectorsList.dateCloseButton).click()
-    cy.get(selectorsList.nationalitySelect).eq(0).click()      
-    cy.get('.oxd-select-dropdown').contains('Brazilian').click()
-    cy.get(selectorsList.maritalStatusSelect).eq(1).click()
-    cy.get('.oxd-select-dropdown').contains('Married').click()
-    cy.get(selectorsList.dateField).eq(1).clear().type('1983-07-27')   
-    cy.get(selectorsList.dateCloseButton).click()
-    cy.get(selectorsList.submitButton).eq(0).click()
-    cy.get('body').should('contain', 'Success')
-  
+  it('User info Update', () => {
+    loginPage.accessLoginPage()
+    loginPage.loginWithUser(userData.userSuccess.username, userData.userSuccess.password)
+    dashboardPage.validateDashboardPage()
+    navbar.myInfoButton()
+    myInfoPage.fillMyInfoPage()  
   })
 
 it('Login - Fail', () => {
 
-cy.visit('/auth/login')
-    
-cy.get(selectorsList.usernameField).type(userData.userFail.username)
-cy.get(selectorsList.passwordField).type(userData.userFail.password)
-cy.get(selectorsList.loginButton).click()
-cy.get(selectorsList.wrongCredentialAlert)
+  loginPage.loginFail(userData.userFail.username, userData.userFail.password)
 
 }
 )
