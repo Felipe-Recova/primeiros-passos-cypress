@@ -16,25 +16,31 @@ class MyInfoPage{
         }
         return selectors
     }
-    fillMyInfoPage() {
-        cy.get(this.selectorsList().headerMyInfo).contains('PIM').should('be.visible')    
-        cy.get(this.selectorsList().firstNameField).clear().type('Felipe')
-        cy.get(this.selectorsList().middleNameField).clear().type('Recova')
-        cy.get(this.selectorsList().lastNameField).clear().type('Castilhos')
-        cy.get(this.selectorsList().genericField).eq(3).clear().type('Recovera')
-        cy.get(this.selectorsList().genericField).eq(4).clear().type('77742')
-        cy.get(this.selectorsList().genericField).eq(5).clear().type('ABC_123456-xyz')
-        cy.get(this.selectorsList().dateField).eq(0).clear().type('2030-12-31')   
+    fillPersonalDetails(firstName, middleName, lastName, nickName) {
+        cy.get(this.selectorsList().firstNameField).clear().type(firstName)
+        cy.get(this.selectorsList().middleNameField).clear().type(middleName)
+        cy.get(this.selectorsList().lastNameField).clear().type(lastName)
+        cy.get(this.selectorsList().genericField).eq(3).clear().type(nickName)
+    }
+    fillEmployeeDetails(employeeId, otherId, driversLicenseDate, Birthdate) {
+        cy.get(this.selectorsList().headerMyInfo).contains('PIM').should('be.visible') 
+        cy.get(this.selectorsList().genericField).eq(4).clear().type(employeeId)
+        cy.get(this.selectorsList().genericField).eq(5).clear().type(otherId)
+        cy.get(this.selectorsList().dateField).eq(0).clear().type(driversLicenseDate)   
         cy.get(this.selectorsList().dateCloseButton).click()
+        cy.get(this.selectorsList().dateField).eq(1).clear().type(Birthdate)   
+        cy.get(this.selectorsList().dateCloseButton).click()
+    }
+    fillStatus() {
         cy.get(this.selectorsList().nationalitySelect).eq(0).click()      
         cy.get(this.selectorsList().nationalityList).contains('Brazilian').click()
         cy.get(this.selectorsList().maritalStatusSelect).eq(1).click()
         cy.get(this.selectorsList().maritalList).contains('Married').click()
-        cy.get(this.selectorsList().dateField).eq(1).clear().type('1983-07-27')   
-        cy.get(this.selectorsList().dateCloseButton).click()
+    }
+    saveForm() {
         cy.get(this.selectorsList().submitButton).eq(0).click()
         cy.get('body').should('contain', 'Success')
-    }
+    } 
 }
 
 export default MyInfoPage

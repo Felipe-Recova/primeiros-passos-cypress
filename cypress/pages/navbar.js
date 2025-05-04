@@ -1,6 +1,7 @@
 class Navbar{
     selectorsList() {
         const selectors = {
+            headerMyInfo: '[class="oxd-text oxd-text--h6 oxd-topbar-header-breadcrumb-module"]',
             adminButton: '[href="/web/index.php/admin/viewAdminModule"]',
             pimButton: '[href="/web/index.php/pim/viewPimModule"]',
             leaveButton: '[href="/web/index.php/leave/viewLeaveModule"]',
@@ -16,7 +17,7 @@ class Navbar{
         }
         return selectors
     }
-    
+
     adminButton() {
         cy.get(this.selectorsList().adminButton).click()
     }
@@ -39,6 +40,7 @@ class Navbar{
 
     myInfoButton() {
         cy.get(this.selectorsList().myInfoButton).click()
+        cy.get(this.selectorsList().headerMyInfo).contains('PIM').should('be.visible') 
     }
 
     performanceButton() {
